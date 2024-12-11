@@ -1,11 +1,11 @@
-# 1. Import libraries
-import pandas as pd
-import numpy as np
 import streamlit as st
+import joblib
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, OrdinalEncoder
 import gdown
 import pickle
 import os
-import kagglehub
 
 # 2. Load dataset
 model_url = "https://drive.google.com/uc?id=19z_sqUqgz9mUuGfqp9sfXTMTpHmcnyrg"
@@ -17,49 +17,25 @@ if not os.path.exists(model_path):
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
-path = kagglehub.dataset_download("shubhankitsirvaiya06/diamond-price-prediction")
-data_dir = os.path.join(path, 'diamonds.csv')
-data = pd.read_csv(data_dir)
-data = data.drop_duplicates()
-data = pd.get_dummies(data, columns=['cut', 'color', 'clarity'], drop_first=True)
-X = data.drop(['price'], axis=1)
+cut_order = ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal']
+ordinal_encoder = OrdinalEncoder(categories=[cut_order])
 
-# 6. Streamlit app
-def predict_price(carat, depth, table, x, y, z, cut, color, clarity):
-    # Create a single row of data for prediction
-    input_data = pd.DataFrame({
-        'carat': [carat],
-        'depth': [depth],
-        'table': [table],
-        'x': [x],
-        'y': [y],
-        'z': [z],
-        **{f'cut_{cut}': [1] if f'cut_{cut}' in X.columns else [0] for cut in ['Good', 'Very Good', 'Premium', 'Ideal']},
-        **{f'color_{color}': [1] if f'color_{color}' in X.columns else [0] for color in ['E', 'F', 'G', 'H', 'I', 'J']},
-        **{f'clarity_{clarity}': [1] if f'clarity_{clarity}' in X.columns else [0] for clarity in ['SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL']}
-    })
-    # Fill missing columns with 0 if they do not exist in the model training data
-    for col in X.columns:
-        if col not in input_data.columns:
-            input_data[col] = 0
-    
-    # Predict price
-    return model.predict(input_data)[0]
+st.title("Dự đoán Giá Kim Cương")
 
-st.title("Diamond Price Prediction")
-
-# User inputs
-carat = st.number_input("Carat", 0.0, 5.0, step=0.01)
-depth = st.number_input("Depth", 0.0, 100.0, step=0.1)
-table = st.number_input("Table", 0.0, 100.0, step=0.1)
-x = st.number_input("X (length)", 0.0, 10.0, step=0.01)
-y = st.number_input("Y (width)", 0.0, 10.0, step=0.01)
-z = st.number_input("Z (depth)", 0.0, 10.0, step=0.01)
+carat = st.slider("Carat", 0.1, 5.0, 1.0)
 cut = st.selectbox("Cut", ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal'])
 color = st.selectbox("Color", ['D', 'E', 'F', 'G', 'H', 'I', 'J'])
-clarity = st.selectbox("Clarity", ['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF', 'FL'])
+clarity = st.selectbox("Clarity", ['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VVS1', 'IF'])
+depth = st.slider("Depth (%)", 50.0, 70.0, 62.0)
+table = st.slider("Table (%)", 50.0, 70.0, 57.0)
 
-# Prediction button
-if st.button("Predict Price"):
-    price = predict_price(carat, depth, table, x, y, z, cut, color, clarity)
-    st.success(f"Estimated price of the diamond: ${price:.2f}")
+cut_encoded = ordinal_encoder.transform([[cut]])[0][0]
+
+input_data = np.array([[carat, depth, table, cut_encoded]])
+
+scaler = StandardScaler()
+input_data_scaled = scaler.fit_transform(input_data)
+
+predicted_price = model.predict(input_data_scaled)[0]
+
+st.subheader(f"Giá kim cương dự đoán: ${predicted_price:,.2f}")
