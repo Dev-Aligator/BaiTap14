@@ -10,6 +10,9 @@ import os
 model_url = "https://drive.google.com/uc?id=1XCLemavC5wHt9ExkGByBdjLNkPKdoJvB"
 model_path = 'diamond_price_model.pkl'
 
+encoder_url = "https://drive.google.com/uc?id=1bOLzHXZqzEC68ehiV0IsaM0y1aOLlnbi"
+encoder_path = 'ordinal_encoder.pkl'
+
 if not os.path.exists(model_path):
     gdown.download(model_url, model_path, quiet=False)
 
