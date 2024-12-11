@@ -15,19 +15,23 @@ if not os.path.exists(model_path):
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
-trained_features = ['carat', 'cut_Fair', 'cut_Good', 'cut_Ideal', 'cut_Excellent', 'cut_Premium',
-                    'color_D', 'color_E', 'color_F', 'color_G', 'color_H', 'color_I', 'color_J',
-                    'clarity_IF', 'clarity_SI1', 'clarity_SI2', 'clarity_VS1', 'clarity_VS2',
-                    'clarity_VVS1', 'clarity_VVS2', 'depth', 'table', 'x', 'y', 'z']
+trained_features = [
+    'carat', 'cut_Fair', 'cut_Good', 'cut_Ideal', 'cut_Premium', 'cut_Very Good',
+    'color_D', 'color_E', 'color_F', 'color_G', 'color_H', 'color_I', 'color_J',
+    'clarity_I1', 'clarity_IF', 'clarity_SI1', 'clarity_SI2', 
+    'clarity_VS1', 'clarity_VS2', 'clarity_VVS1', 'clarity_VVS2',
+    'depth', 'table', 'x', 'y', 'z'
+]
 
 def preprocess_input(carat, cut, color, clarity, depth, table, x, y, z):
+    # Mã hóa các giá trị phân loại
     input_data = pd.DataFrame({
         'carat': [carat],
         'cut_Fair': [1 if cut == 'Fair' else 0],
         'cut_Good': [1 if cut == 'Good' else 0],
         'cut_Ideal': [1 if cut == 'Ideal' else 0],
-        'cut_Excellent': [1 if cut == 'Excellent' else 0],
         'cut_Premium': [1 if cut == 'Premium' else 0],
+        'cut_Very Good': [1 if cut == 'Very Good' else 0],
         'color_D': [1 if color == 'D' else 0],
         'color_E': [1 if color == 'E' else 0],
         'color_F': [1 if color == 'F' else 0],
@@ -35,6 +39,7 @@ def preprocess_input(carat, cut, color, clarity, depth, table, x, y, z):
         'color_H': [1 if color == 'H' else 0],
         'color_I': [1 if color == 'I' else 0],
         'color_J': [1 if color == 'J' else 0],
+        'clarity_I1': [1 if clarity == 'I1' else 0],
         'clarity_IF': [1 if clarity == 'IF' else 0],
         'clarity_SI1': [1 if clarity == 'SI1' else 0],
         'clarity_SI2': [1 if clarity == 'SI2' else 0],
