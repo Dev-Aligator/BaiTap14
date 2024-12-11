@@ -5,6 +5,7 @@ import streamlit as st
 import gdown
 import pickle
 import os
+import kagglehub
 
 # 2. Load dataset
 model_url = "https://drive.google.com/uc?id=19z_sqUqgz9mUuGfqp9sfXTMTpHmcnyrg"
@@ -15,6 +16,13 @@ if not os.path.exists(model_path):
 
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
+
+path = kagglehub.dataset_download("shubhankitsirvaiya06/diamond-price-prediction")
+data_dir = os.path.join(path, 'diamonds.csv')
+data = pd.read_csv(data_dir)
+data = data.drop_duplicates()
+data = pd.get_dummies(data, columns=['cut', 'color', 'clarity'], drop_first=True)
+X = data.drop(['price'], axis=1)
 
 # 6. Streamlit app
 def predict_price(carat, depth, table, x, y, z, cut, color, clarity):
