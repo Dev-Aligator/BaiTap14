@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
+import gdown
 
 model_url = "https://drive.google.com/uc?id=1GpMniUflvRXdosPnivsb3Y5daMhU62HH"
 
