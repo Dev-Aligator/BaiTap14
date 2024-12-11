@@ -8,8 +8,6 @@ import pickle
 # Tải mô hình và label_encoder từ Google Drive
 model_url = 'https://drive.google.com/uc?id=1LX6CaYcqRuyUT9zue1GUe8gI7bkmgcOc'
 model_path = 'diamond_price_model.pkl'
-label_encoder_url = 'https://drive.google.com/uc?id=12jXCFzkjRWL8ak2qOA8FkF4XHtyNtr51'
-label_encoder_path = 'label_encoder.pkl'
 
 # Tải tệp từ Google Drive
 if not os.path.exists(model_path):
@@ -18,11 +16,20 @@ if not os.path.exists(model_path):
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
-if not os.path.exists(label_encoder_path):
-    gdown.download(label_encoder_url, label_encoder_path, quiet=False)
+import kagglehub
 
-with open(label_encoder_path, 'rb') as file:
-    label_encoder = pickle.load(file)
+# Download latest version
+path = kagglehub.dataset_download("shubhankitsirvaiya06/diamond-price-prediction")
+
+data_dir = os.path.join(path, 'diamonds.csv')
+data = pd.read_csv(data_dir)
+
+from sklearn.preprocessing import LabelEncoder
+
+label_encoder = LabelEncoder()
+df['cut'] = label_encoder.fit_transform(df['cut'])
+df['color'] = label_encoder.fit_transform(df['color'])
+df['clarity'] = label_encoder.fit_transform(df['clarity'])
 
 # Tạo giao diện Streamlit
 st.title('Dự đoán giá kim cương')
