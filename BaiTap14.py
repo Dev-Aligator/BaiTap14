@@ -24,6 +24,9 @@ path = kagglehub.dataset_download("shubhankitsirvaiya06/diamond-price-prediction
 data_dir = os.path.join(path, 'diamonds.csv')
 df = pd.read_csv(data_dir)
 
+features = ['carat', 'cut', 'color', 'clarity', 'depth', 'table']
+df = df[features]
+
 from sklearn.preprocessing import LabelEncoder
 
 label_encoder = LabelEncoder()
