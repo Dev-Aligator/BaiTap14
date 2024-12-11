@@ -8,7 +8,7 @@ import pickle
 # Tải mô hình và label_encoder từ Google Drive
 model_url = 'https://drive.google.com/uc?id=1LX6CaYcqRuyUT9zue1GUe8gI7bkmgcOc'
 model_path = 'diamond_price_model.pkl'
-label_encoder_url = 'https://drive.google.com/uc?id=1h8JSQZ29aGKQtm5vzfNzH9W07r_a-d4p'
+label_encoder_url = 'https://drive.google.com/uc?id=12jXCFzkjRWL8ak2qOA8FkF4XHtyNtr51'
 label_encoder_path = 'label_encoder.pkl'
 
 # Tải tệp từ Google Drive
