@@ -6,7 +6,7 @@ import os
 import pickle
 
 # Tải mô hình và label_encoder từ Google Drive
-model_url = 'https://drive.google.com/uc?id=1LX6CaYcqRuyUT9zue1GUe8gI7bkmgcOc'
+model_url = 'https://drive.google.com/uc?id=1GxblzLJcfYtLH5kA7rwD0xKTPqku0HYU'
 model_path = 'diamond_price_model.pkl'
 
 # Tải tệp từ Google Drive
