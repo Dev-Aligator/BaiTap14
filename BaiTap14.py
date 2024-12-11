@@ -22,7 +22,7 @@ import kagglehub
 path = kagglehub.dataset_download("shubhankitsirvaiya06/diamond-price-prediction")
 
 data_dir = os.path.join(path, 'diamonds.csv')
-data = pd.read_csv(data_dir)
+df = pd.read_csv(data_dir)
 
 from sklearn.preprocessing import LabelEncoder
 
