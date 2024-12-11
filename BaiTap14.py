@@ -39,6 +39,12 @@ def preprocess_input(carat, cut, color, clarity):
         'clarity_VVS2': [1 if clarity == 'VVS2' else 0]
     })
     return input_data
+
+def predict_price(carat, cut, color, clarity):
+    input_data = preprocess_input(carat, cut, color, clarity)
+    
+    predicted_price = model.predict(input_data)
+    return predicted_price[0]
     
 st.title("Ứng dụng dự đoán giá kim cương")
 st.write("Nhập thông số về viên kim cương để dự đoán giá")
