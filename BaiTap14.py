@@ -19,10 +19,13 @@ if not os.path.exists(model_path):
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
-cut_order = ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal']
-ordinal_encoder = OrdinalEncoder(categories=[cut_order])
+if not os.path.exists(encoder_path):
+    gdown.download(encoder_url, encoder_path, quiet=False)
 
-st.title("Dự đoán Giá Kim Cương")
+with open(encoder_path, 'rb') as file:
+    encoder = pickle.load(file)
+
+st.title("Ứng dụng dự đoán giá kim cương")
 
 carat = st.slider("Carat", 0.1, 5.0, 1.0)
 cut = st.selectbox("Cut", ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal'])
@@ -31,7 +34,7 @@ clarity = st.selectbox("Clarity", ['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VV
 depth = st.slider("Depth (%)", 50.0, 70.0, 62.0)
 table = st.slider("Table (%)", 50.0, 70.0, 57.0)
 
-cut_encoded = ordinal_encoder.transform([[cut]])[0][0]
+cut_encoded = encoder.transform([[cut]])[0][0]
 
 input_data = np.array([[carat, depth, table, cut_encoded]])
 
