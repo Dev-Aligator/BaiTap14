@@ -15,20 +15,31 @@ if not os.path.exists(model_path):
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
-def predict_price(carat, cut, color, clarity):
-    cut_mapping = {'Fair': 0, 'Good': 1, 'Very Good': 2, 'Ideal': 3, 'Excellent': 4}
-    color_mapping = {'D': 0, 'E': 1, 'F': 2, 'G': 3, 'H': 4, 'I': 5, 'J': 6}
-    clarity_mapping = {'SI1': 0, 'VS1': 1, 'VVS1': 2, 'IF': 3, 'SI2': 4, 'VS2': 5, 'VVS2': 6}
+def preprocess_input(carat, cut, color, clarity):
+    input_data = pd.DataFrame({
+        'carat': [carat],
+        'cut_Fair': [1 if cut == 'Fair' else 0],
+        'cut_Good': [1 if cut == 'Good' else 0],
+        'cut_Ideal': [1 if cut == 'Ideal' else 0],
+        'cut_Excellent': [1 if cut == 'Excellent' else 0],
+        'cut_Very Good': [1 if cut == 'Very Good' else 0],
+        'color_D': [1 if color == 'D' else 0],
+        'color_E': [1 if color == 'E' else 0],
+        'color_F': [1 if color == 'F' else 0],
+        'color_G': [1 if color == 'G' else 0],
+        'color_H': [1 if color == 'H' else 0],
+        'color_I': [1 if color == 'I' else 0],
+        'color_J': [1 if color == 'J' else 0],
+        'clarity_IF': [1 if clarity == 'IF' else 0],
+        'clarity_SI1': [1 if clarity == 'SI1' else 0],
+        'clarity_SI2': [1 if clarity == 'SI2' else 0],
+        'clarity_VS1': [1 if clarity == 'VS1' else 0],
+        'clarity_VS2': [1 if clarity == 'VS2' else 0],
+        'clarity_VVS1': [1 if clarity == 'VVS1' else 0],
+        'clarity_VVS2': [1 if clarity == 'VVS2' else 0]
+    })
+    return input_data
     
-    cut_num = cut_mapping[cut]
-    color_num = color_mapping[color]
-    clarity_num = clarity_mapping[clarity]
-    
-    input_data = np.array([carat, cut_num, color_num, clarity_num]).reshape(1, -1)
-    
-    predicted_price = model.predict(input_data)
-    return predicted_price[0]
-
 st.title("Ứng dụng dự đoán giá kim cương")
 st.write("Nhập thông số về viên kim cương để dự đoán giá")
 
