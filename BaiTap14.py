@@ -2,8 +2,19 @@ import pandas as pd
 import numpy as np
 import joblib
 import streamlit as st
+import gdown
+import os
+import pickle
 
-model = joblib.load('diamond_price_model.pkl')
+model_url = "https://drive.google.com/uc?id=1SmqLZ3jPVYdeSAQAliTNX8SBymLf8MMZ"
+
+model_path = 'diamond_price_model.pkl'
+
+if not os.path.exists(model_path):
+    gdown.download(model_url, model_path, quiet=False)
+
+with open(model_path, 'rb') as file:
+    model = pickle.load(file)
 
 def predict_price(carat, cut, color, clarity):
     cut_mapping = {'Fair': 0, 'Good': 1, 'Very Good': 2, 'Ideal': 3, 'Excellent': 4}
