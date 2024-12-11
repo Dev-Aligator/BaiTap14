@@ -6,13 +6,13 @@ import gdown
 import pickle
 import os
 
-model_url = "https://drive.google.com/uc?id=1XCLemavC5wHt9ExkGByBdjLNkPKdoJvB"
+model_url = "https://drive.google.com/uc?id=1iwG4azuPyAFPbcmcXyUC95CS4CWcD_qL"
 model_path = 'diamond_price_model.pkl'
 
-encoder_url = "https://drive.google.com/uc?id=1bOLzHXZqzEC68ehiV0IsaM0y1aOLlnbi"
+encoder_url = "https://drive.google.com/uc?id=1TiMCkR623_zSodT1QXErC6HLrzN8kYjA"
 encoder_path = 'ordinal_encoder.pkl'
 
-scaler_url = "https://drive.google.com/uc?id=1T4wJpUSKF4OCe3w7mPvvox54LcIYNmKe"
+scaler_url = "https://drive.google.com/uc?id=1i6Vasx1zMK0LAKgIQRQBj1tN0-86Ayu3"
 scaler_path = 'scaler.pkl'
 
 if not os.path.exists(model_path):
