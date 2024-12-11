@@ -4,6 +4,7 @@ import numpy as np
 import streamlit as st
 import gdown
 import pickle
+import os
 
 # 2. Load dataset
 model_url = "https://drive.google.com/uc?id=19z_sqUqgz9mUuGfqp9sfXTMTpHmcnyrg"
