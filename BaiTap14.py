@@ -6,7 +6,7 @@ import joblib
 
 # Tải mô hình và label_encoder từ Google Drive
 model_url = 'https://drive.google.com/uc?id=1UtVhI3XtBR-vhYMrnCkCsdcSRXot2dS4'
-label_encoder_url = 'https://drive.google.com/uc?id=1BAaGBA7VgzgUthPVrlrPrVYuL3BaVtmD'
+label_encoder_url = 'https://drive.google.com/uc?id=1Y8E3DrkkjGXHk0GfIFzr6xDO_DCQ9mwQ'
 
 # Tải tệp từ Google Drive
 gdown.download(model_url, 'model.pkl', quiet=False)
