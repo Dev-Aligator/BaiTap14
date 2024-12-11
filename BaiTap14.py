@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import gdown
+import os
+import pickle
 
 # Tải mô hình và label_encoder từ Google Drive
 model_url = 'https://drive.google.com/uc?id=1UtVhI3XtBR-vhYMrnCkCsdcSRXot2dS4'
