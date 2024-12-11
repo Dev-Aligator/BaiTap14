@@ -7,8 +7,7 @@ import gdown
 import pickle
 import os
 
-# 2. Load dataset
-model_url = "https://drive.google.com/uc?id=19z_sqUqgz9mUuGfqp9sfXTMTpHmcnyrg"
+model_url = "https://drive.google.com/uc?id=1XCLemavC5wHt9ExkGByBdjLNkPKdoJvB"
 model_path = 'diamond_price_model.pkl'
 
 if not os.path.exists(model_path):
