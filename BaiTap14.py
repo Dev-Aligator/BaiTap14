@@ -5,32 +5,39 @@ import pandas as pd
 import gdown
 import pickle
 import os
+import kagglehub
+
+# Download latest version
+path = kagglehub.dataset_download("shubhankitsirvaiya06/diamond-price-prediction")
+
+print("Path to dataset files:", path)
+
+data_dir = os.path.join(path, 'diamonds.csv')
+data = pd.read_csv(data_dir)
+
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder
+
+cut_order = ['Fair', 'Good', 'Very Good', 'Premium', 'Ideal']
+encoder = OrdinalEncoder(categories=[cut_order])
+data['cut'] = encoder.fit_transform(data[['cut']])
+
+data = pd.get_dummies(data, columns=['color', 'clarity'], drop_first=True)
+
+from sklearn.preprocessing import StandardScaler
+
+numeric_features = ['carat', 'depth', 'table', 'x', 'y', 'z']
+scaler = StandardScaler()
+data[numeric_features] = scaler.fit_transform(data[numeric_features])
+
+
 
 model_url = "https://drive.google.com/uc?id=1iwG4azuPyAFPbcmcXyUC95CS4CWcD_qL"
 model_path = 'diamond_price_model.pkl'
-
-encoder_url = "https://drive.google.com/uc?id=1TiMCkR623_zSodT1QXErC6HLrzN8kYjA"
-encoder_path = 'ordinal_encoder.pkl'
-
-scaler_url = "https://drive.google.com/uc?id=1i6Vasx1zMK0LAKgIQRQBj1tN0-86Ayu3"
-scaler_path = 'scaler.pkl'
 
 if not os.path.exists(model_path):
     gdown.download(model_url, model_path, quiet=False)
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
-
-
-if not os.path.exists(encoder_path):
-    gdown.download(encoder_url, encoder_path, quiet=False)
-with open(encoder_path, 'rb') as file:
-    encoder = pickle.load(file)
-
-
-if not os.path.exists(scaler_path):
-    gdown.download(scaler_url, scaler_path, quiet=False)
-with open(scaler_path, 'rb') as file:
-    scaler = pickle.load(file)
 
 st.title("Ứng dụng dự đoán giá kim cương")
 
