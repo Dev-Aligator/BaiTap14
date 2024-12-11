@@ -34,7 +34,7 @@ clarity = st.selectbox("Clarity", ['I1', 'SI2', 'SI1', 'VS2', 'VS1', 'VVS2', 'VV
 depth = st.slider("Depth (%)", 50.0, 70.0, 62.0)
 table = st.slider("Table (%)", 50.0, 70.0, 57.0)
 
-cut_encoded = encoder.transform([[cut]])[0][0]
+cut_encoded = encoder.transpose([[cut]])[0][0]
 
 input_data = np.array([[carat, depth, table, cut_encoded]])
 
