@@ -15,27 +15,33 @@ if not os.path.exists(model_path):
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
-feature_columns = ['carat', 'cut_Fair', 'cut_Good', 'cut_Ideal', 'cut_Premium',
-                   'color_D', 'color_E', 'color_F', 'color_G', 'color_H',
-                   'clarity_I1', 'clarity_SI1', 'clarity_VS1', 'clarity_VVS1',
-                   'depth', 'table', 'x', 'y', 'z']
+trained_features = ['carat', 'cut_Fair', 'cut_Good', 'cut_Ideal', 'cut_Excellent', 'cut_Premium',
+                    'color_D', 'color_E', 'color_F', 'color_G', 'color_H', 'color_I', 'color_J',
+                    'clarity_IF', 'clarity_SI1', 'clarity_SI2', 'clarity_VS1', 'clarity_VS2',
+                    'clarity_VVS1', 'clarity_VVS2', 'depth', 'table', 'x', 'y', 'z']
 
-def preprocess_input(carat, cut, color, clarity, depth=0, table=0, x=0, y=0, z=0):
+def preprocess_input(carat, cut, color, clarity, depth, table, x, y, z):
     input_data = pd.DataFrame({
         'carat': [carat],
         'cut_Fair': [1 if cut == 'Fair' else 0],
         'cut_Good': [1 if cut == 'Good' else 0],
         'cut_Ideal': [1 if cut == 'Ideal' else 0],
+        'cut_Excellent': [1 if cut == 'Excellent' else 0],
         'cut_Premium': [1 if cut == 'Premium' else 0],
         'color_D': [1 if color == 'D' else 0],
         'color_E': [1 if color == 'E' else 0],
         'color_F': [1 if color == 'F' else 0],
         'color_G': [1 if color == 'G' else 0],
         'color_H': [1 if color == 'H' else 0],
-        'clarity_I1': [1 if clarity == 'I1' else 0],
+        'color_I': [1 if color == 'I' else 0],
+        'color_J': [1 if color == 'J' else 0],
+        'clarity_IF': [1 if clarity == 'IF' else 0],
         'clarity_SI1': [1 if clarity == 'SI1' else 0],
+        'clarity_SI2': [1 if clarity == 'SI2' else 0],
         'clarity_VS1': [1 if clarity == 'VS1' else 0],
+        'clarity_VS2': [1 if clarity == 'VS2' else 0],
         'clarity_VVS1': [1 if clarity == 'VVS1' else 0],
+        'clarity_VVS2': [1 if clarity == 'VVS2' else 0],
         'depth': [depth],
         'table': [table],
         'x': [x],
@@ -43,7 +49,7 @@ def preprocess_input(carat, cut, color, clarity, depth=0, table=0, x=0, y=0, z=0
         'z': [z]
     })
 
-    input_data = input_data.reindex(columns=feature_columns, fill_value=0)
+    input_data = input_data.reindex(columns=trained_features, fill_value=0)
     return input_data
 
 def predict_price(carat, cut, color, clarity, depth, table, x, y, z):
