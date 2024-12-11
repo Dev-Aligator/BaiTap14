@@ -25,7 +25,7 @@ data = pd.get_dummies(data, columns=['color', 'clarity'], drop_first=True)
 
 from sklearn.preprocessing import StandardScaler
 
-numeric_features = ['carat', 'depth', 'table', 'x', 'y', 'z']
+numeric_features = ['carat', 'depth', 'table']
 scaler = StandardScaler()
 data[numeric_features] = scaler.fit_transform(data[numeric_features])
 
