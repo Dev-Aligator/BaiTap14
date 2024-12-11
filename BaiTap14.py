@@ -13,23 +13,22 @@ encoder_url = "https://drive.google.com/uc?id=1bOLzHXZqzEC68ehiV0IsaM0y1aOLlnbi"
 encoder_path = 'ordinal_encoder.pkl'
 
 scaler_url = "https://drive.google.com/uc?id=1T4wJpUSKF4OCe3w7mPvvox54LcIYNmKe"
-scaler_path = 'ordinal_encoder.pkl'
+scaler_path = 'scaler.pkl'
 
 if not os.path.exists(model_path):
     gdown.download(model_url, model_path, quiet=False)
-
 with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
+
 if not os.path.exists(encoder_path):
     gdown.download(encoder_url, encoder_path, quiet=False)
-
 with open(encoder_path, 'rb') as file:
     encoder = pickle.load(file)
 
+
 if not os.path.exists(scaler_path):
     gdown.download(scaler_url, scaler_path, quiet=False)
-
 with open(scaler_path, 'rb') as file:
     scaler = pickle.load(file)
 
